@@ -1,0 +1,41 @@
+# Local runtimes and caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.uv-cache/
+uv-cache/
+.DS_Store
+
+# Runtime output and personal state
+**/logs/
+*.log
+*.jsonl
+*.ips
+*.crash
+*.pid
+*.sqlite*
+*.db
+profiles/
+saves/
+captures/
+
+# Credentials and signing material
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.mobileprovision
+*.xcent
+credentials*
+secrets*
+
+# Local distribution builds; only the reviewed unsigned IPA is included
+/dist/
+*.zip
+*.ipa
+!/runtime-revive/ArcherCat-unsigned-resignable.ipa

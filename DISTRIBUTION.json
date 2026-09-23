@@ -1,0 +1,93 @@
+{
+  "files": {
+    ".gitignore": {
+      "bytes": 516,
+      "sha256": "8bc3ca52643478dbe234f8526503100badd71c5ca4de745b0abcc7aa4ed7cee9"
+    },
+    "PROVENANCE.json": {
+      "bytes": 575,
+      "sha256": "401a33c1496f7b9b836379846cb77b2c50dd003d80448ccedef47a92737cd297"
+    },
+    "PUBLIC_FILES.txt": {
+      "bytes": 661,
+      "sha256": "140b7ffba3f931226df4d4d7f348dc55c15a6362435bed0a8510be2472cda9de"
+    },
+    "README.md": {
+      "bytes": 6708,
+      "sha256": "cb71ffb753fd8016701bbc784bd6c6a1a58cb88c7622b3bf280cb6ed16a45063"
+    },
+    "Start.command": {
+      "bytes": 2411,
+      "sha256": "1f4cc94388b46b0f4f08ddd64b8f5985c984a1a7c3b5e75e11e9bdd96a652090"
+    },
+    "docs/privacy.md": {
+      "bytes": 1793,
+      "sha256": "8848becb72ed8ae115e96d0d807c7fa825d8235a487b089ac7b1d1ac291c9587"
+    },
+    "docs/testing.md": {
+      "bytes": 2871,
+      "sha256": "dbdf217db949b2d0cc76826dd2ea8c1fefcfadc048afef77d558c83e360fac50"
+    },
+    "player.py": {
+      "bytes": 9272,
+      "sha256": "8c3a3132d62df151a938135b00267d7895a8dc3318421901f37585525cd1b138"
+    },
+    "pyproject.toml": {
+      "bytes": 239,
+      "sha256": "22a873eb36a153afa3dbb8ad5e5436f69cd83ee9028c10e8539fb51ed5826ef4"
+    },
+    "runtime-revive/ArcherCat-unsigned-resignable.ipa": {
+      "bytes": 60082596,
+      "sha256": "56d0363483219fcd3c7b9e1575d70c3738ecfc782bac1606cbdd8c0b5160e84c"
+    },
+    "runtime-revive/playcover-spike/cocos-ui-capture/capture_framebuffer_sidecar.py": {
+      "bytes": 100472,
+      "sha256": "d446ca5d5fa865305eafb945826c3e695d9e63d2e97949dd6496e0dd84c59dce"
+    },
+    "runtime-revive/playcover-spike/frida-network-redirect-hook.js": {
+      "bytes": 104763,
+      "sha256": "c78c853dfc8bfb62b81e43373817c4d655e9af0c03f8ca4bb6e0a6ce9075908f"
+    },
+    "runtime-revive/playcover-spike/launch-player.sh": {
+      "bytes": 1231,
+      "sha256": "8bb4eb06235511e3c30451c4d1bdb12f74a74e4078f85396e4da5f3a18983168"
+    },
+    "runtime-revive/playcover-spike/mock-server/server.py": {
+      "bytes": 8642,
+      "sha256": "0dd77886025ae66bc0a9b3baa4bea4b3894a28e53300bf137596fc81b16d23af"
+    },
+    "runtime-revive/playcover-spike/playcover-runtime-env.sh": {
+      "bytes": 33720,
+      "sha256": "3eef90e2f25daf40b90d8a696479ad20a154f7ec6cf1b36010dcf1c3ddd362b3"
+    },
+    "runtime-revive/playcover-spike/start-with-local-mock.sh": {
+      "bytes": 13834,
+      "sha256": "2d6115e40cab36922fc3631b7ae5d66437a65ebd9e5dd2ba42956bf56ec635cb"
+    },
+    "test_distribution.py": {
+      "bytes": 1582,
+      "sha256": "94ddf792dc0085b3a7a40d80e282a85284f7e73868b85eb67e698795e62755a8"
+    },
+    "test_player.py": {
+      "bytes": 4010,
+      "sha256": "f0518587055a12eb4046095fb7235b8b441f35e7faf28fea3178cdbae2771159"
+    },
+    "test_prepare_game.py": {
+      "bytes": 3153,
+      "sha256": "6f94f2f00b6060495e46428e9137e36b2de219e33b96fb62e806880453951e29"
+    },
+    "tools/check_distribution.py": {
+      "bytes": 6164,
+      "sha256": "5c4a8d3f677dda1b318487320f4973a4519c6896f08661297c5216513c3ec662"
+    },
+    "tools/prepare_game.py": {
+      "bytes": 3877,
+      "sha256": "adc498379627bccaf084bed1b5630f6ec85f1acc56afeaaf5ccf75d18b404a5a"
+    },
+    "uv.lock": {
+      "bytes": 16069,
+      "sha256": "644916c0764b41801a661a13ec782dea2b7cb85d8d04a55c9f33b98d9282fab6"
+    }
+  },
+  "schemaVersion": 1
+}

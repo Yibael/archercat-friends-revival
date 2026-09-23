@@ -1,0 +1,10 @@
+{
+  "upstreamCommit": "08dd34baa51cf8ff722473fce3343d6b9e989f00",
+  "originalIpaSha256": "d898d6359c552d1bfb25bf571fd4c3e6aa09759848eb0d974e83033a88407efc",
+  "distributedIpaSha256": "56d0363483219fcd3c7b9e1575d70c3738ecfc782bac1606cbdd8c0b5160e84c",
+  "removedArchiveMembers": [
+    "Payload/ArcherCat.app/archived-expanded-entitlements.xcent"
+  ],
+  "binaryAndResourcesUnchanged": true,
+  "note": "Only selected launcher files and the unsigned game package are included; no user profile, runtime logs, imported PlayCover app, or original repository history is included."
+}

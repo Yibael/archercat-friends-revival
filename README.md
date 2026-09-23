@@ -1,40 +1,53 @@
-# ArcherCat Friends Revival
+<div align="center">
+  <img src="docs/assets/archercat-icon.png" alt="ArcherCat Friends icon" width="112" height="112">
 
-使用 **PlayCover + Frida + 本地 mock**，在 Apple Silicon Mac 上运行 ArcherCat Friends 原版客户端的非官方实验项目。
+  <h1>ArcherCat Friends Revival</h1>
 
-安装好必要工具后，克隆仓库并双击 **`Start.command`**，即可一起启动游戏、本地 mock 和 Frida。无需克隆原始逆向仓库，也不需要 Bun、Node.js 或 Codex。
+  <p>在 Apple Silicon Mac 上重新启动 ArcherCat Friends。</p>
+  <p>PlayCover · Frida · Local mock</p>
 
-> **克隆后启动链路已验证，完整游玩仍在实验中。** 干净克隆在空 uv 缓存、`UV_OFFLINE=1` 条件下，成功从仓库安装 Frida、启动原游戏与 mock、完成本地登录，并通过 30 秒启动测试。此前一次运行曾出现 `EXC_BAD_ACCESS`；完整战斗、结算和持久存档仍未验证。
+  <p>
+    <img src="https://img.shields.io/badge/macOS-Apple%20Silicon-111827?logo=apple&amp;logoColor=white" alt="Platform: macOS on Apple Silicon">
+    <img src="https://img.shields.io/badge/Python-3.12-3776AB?logo=python&amp;logoColor=white" alt="Python 3.12">
+    <img src="https://img.shields.io/badge/status-experimental-orange" alt="Status: experimental">
+  </p>
 
-## 运行方式
+  <p>
+    <a href="#快速开始">快速开始</a> ·
+    <a href="#项目状态">项目状态</a> ·
+    <a href="docs/testing.md">测试记录</a> ·
+    <a href="#参与开发">参与开发</a>
+  </p>
+</div>
 
-```text
-Start.command
-  ├─ uv 准备独立 Python / Frida 环境
-  ├─ 本地 mock：127.0.0.1:3001
-  └─ PlayCover 原游戏进程
-       └─ Frida：网络重定向、关联请求、替换有限的 mock 响应
-```
+---
 
-原客户端仍负责游戏逻辑与画面。本项目的 mock 仅实现有限响应，角色数据来自固定的本地 fixture；不代表恢复了原服务端或真实玩家账号。
+ArcherCat Friends Revival 是一个非官方的原版客户端运行实验。项目通过 PlayCover 运行游戏，使用 Frida 和本地 mock 补充有限的服务响应，提供可复现的一键启动环境。
+
+- **一键启动**：同一个入口准备依赖、启动 mock、运行游戏并挂载 Frida。
+- **仓库自包含**：IPA 和固定版本的 macOS ARM64 Frida wheel 随仓库提供，无需 Git LFS，也无需访问 PyPI 安装 Frida。
+- **可核对的验证结果**：干净克隆已通过本地登录和 30 秒启动测试；文件来源、校验值与测试边界均有记录。
+
+> [!IMPORTANT]
+> 项目仍处于实验阶段。启动成功不代表完整游戏已经恢复：长期稳定性、战斗结算和持久存档尚未验证，此前也观察到过崩溃。当前角色数据来自预设配置，请勿将其视为可靠的个人存档系统。
 
 ## 环境要求
 
-| 项目 | 说明 |
+| 环境 | 要求 |
 | --- | --- |
-| Apple Silicon Mac | M1 或后续芯片；本启动器不支持 Intel Mac、Windows 或 Linux |
-| PlayCover | 先安装与自己 macOS 兼容的版本，首次启动时由启动器打开包内 IPA 导入 |
-| Apple Command Line Tools | 用于核对游戏二进制身份；不需要完整 Xcode |
-| uv | 管理独立 Python 环境和锁定的依赖 |
-| Python 3.12 | 已安装时直接使用；缺少时由 uv 下载，也可手动提前安装 |
+| 硬件 | Apple Silicon Mac，M1 或后续芯片 |
+| PlayCover | 手动安装与自己 macOS 兼容的版本 |
+| Apple Command Line Tools | 手动安装，用于核对游戏二进制身份 |
+| uv | 手动安装，用于管理 Python 和锁定依赖 |
+| Python 3.12 | 已安装时直接使用；缺少时由 uv 下载，也可提前手动安装 |
 
-本机验证环境为 macOS 27.0、PlayCover 3.1.0、Python 3.12、Frida 17.15.4。其他系统组合和全新 Mac 的安装流程尚未在另一台实机验证；首次导入分支有离线行为测试。Frida 注入也受本机权限影响；启动器不会修改系统安全设置。
+本启动器不支持 Intel Mac、Windows 或 Linux。已测试的系统组合及其限制见[测试记录](docs/testing.md)。
 
-## 首次安装
+## 快速开始
 
 ### 1. 安装基础工具
 
-安装 [PlayCover](https://docs.playcover.io/getting_started/download_playcover)。
+按照官方说明安装 [PlayCover](https://docs.playcover.io/getting_started/download_playcover) 和 [uv](https://docs.astral.sh/uv/getting-started/installation/)。
 
 安装 Apple Command Line Tools：
 
@@ -42,110 +55,151 @@ Start.command
 xcode-select --install
 ```
 
-按 [uv 官方说明](https://docs.astral.sh/uv/getting-started/installation/)安装 uv。已有 Homebrew 时也可使用 `brew install uv`。
-
-### 2. 获取项目
+### 2. 克隆并启动
 
 ```sh
 git clone https://github.com/Yibael/archercat-friends-revival.git
 cd archercat-friends-revival
-```
-
-也可以从 GitHub 下载 ZIP，完整解压到可写目录。IPA 直接保存在仓库中，不需要 Git LFS。
-
-### 3. 首次运行与自动导入
-
-仓库已经包含 `runtime-revive/ArcherCat-unsigned-resignable.ipa`，不需要从别的仓库或临时目录复制文件。首次执行 `Start.command` 时，如果游戏尚未安装，启动器会自动让 PlayCover 打开此 IPA，等待导入完成后继续。请完成 PlayCover 自身显示的安装提示；不要另外打开游戏。
-
-IPA 已移除无用的旧签名 entitlement 元数据；未改动游戏二进制或资源内容。如果已有安装，启动器只检查它，不会覆盖或重装。
-
-如需调整显示，在 PlayCover 中为游戏选择 iPhone 竖屏。
-
-### 4. 一键启动
-
-双击 **`Start.command`**，或在终端执行：
-
-```sh
 ./Start.command
 ```
 
-首次会建立 `.venv`，从仓库自带的官方 ARM64 wheel 安装 Frida，随后自动启动 mock、游戏和 Frida。Frida 安装不需要访问 PyPI；若本机没有 Python 3.12，uv 仍需下载 Python，或由你提前安装。若游戏出现“开始游戏”，由使用者点击。
+也可以下载仓库 ZIP，完整解压到可写目录后，双击 **`Start.command`**。
 
-游戏运行期间保留终端窗口。关闭游戏后启动器会收尾本次 mock，也可以按 **Ctrl+C** 结束本次运行。请勿直接从 PlayCover 单独启动游戏，否则不会同时启动本地 mock 链路。
+首次启动时，启动器会：
 
-## 当前状态
+1. 创建 `.venv`，从仓库内的官方 wheel 安装 Frida。
+2. 检查游戏安装；如尚未安装，打开 PlayCover 导入仓库内的 IPA。
+3. 等待导入完成，再启动本地 mock、游戏和 Frida。
 
-| 功能 | 状态 |
+请完成 PlayCover 显示的安装提示。如果游戏出现“开始游戏”，点击即可。若需调整显示，可在 PlayCover 中选择 iPhone 竖屏。已有的游戏安装不会被自动覆盖。
+
+Frida 安装不需要访问 PyPI；本机缺少 Python 3.12 时，uv 仍需要联网下载 Python。macOS 的安装或调试权限提示需要由使用者处理，启动器不会修改系统安全设置。
+
+### 3. 退出
+
+游戏运行期间保留启动器终端。关闭游戏后会收尾本次 mock，也可以在终端按 **Ctrl+C** 结束本次运行。
+
+后续仍通过 `Start.command` 启动；单独从 PlayCover 打开游戏不会同时启动本地 mock 和 Frida。
+
+## 项目状态
+
+| 范围 | 状态 |
 | --- | --- |
-| 独立目录安装依赖 | 已验证 |
-| 本地 mock 启动 | 已验证 |
-| PlayCover 原游戏启动 | 已验证 |
-| Frida hook 与 LocalGuest 登录响应 | 已验证 |
-| 30 秒启动 smoke | 干净克隆已通过；游戏和 mock 正常收尾 |
-| 长时间稳定游玩 | 未验证；此前观察到崩溃，原因尚未确认 |
-| 单关开始 → 战斗 → 结算 | 未验证 |
-| 保存进度 → 退出 → 重新启动 | 未验证 |
-| 商店交易、成长、社交 | 未完整实现或验证 |
-| 另一台干净 Mac / 纯离线运行 | 未验证 |
+| 干净克隆、空 uv 缓存、离线安装 Frida | 已验证 |
+| 原游戏启动、本地 mock、LocalGuest 登录 | 已验证 |
+| 30 秒启动测试及受控退出 | 已通过 |
+| 全新 Mac 的首次 IPA 导入 | 未经实机验证；导入分支有离线测试 |
+| 长时间运行 | 未验证；历史崩溃原因尚未确认 |
+| 完整战斗、结算、成长与持久存档 | 未完整实现或验证 |
+| 游戏全程离线运行 | 未验证 |
 
-启动时使用 `calendar-claimed-today-suppressed` fixture，减少签到弹窗干扰。每次登录可能重新注入预设数据，不能把它当作可靠的个人存档系统。
+这里的“离线安装”仅指依赖安装过程，不代表原游戏所有功能都能离线使用。完整验证方法和历史结果见[测试记录](docs/testing.md)。
 
-详见 [测试记录](docs/testing.md)。下一步应继续定位历史崩溃，并验证完整的单关和存档流程。
+下一步重点是定位历史崩溃，补齐实际服务响应，并验证“进入关卡 → 战斗 → 结算 → 保存 → 退出 → 再次启动”的完整流程。
+
+## 工作原理
+
+```text
+Start.command
+  ├── uv → Python + Frida
+  ├── Local mock → 127.0.0.1:3001
+  └── PlayCover → ArcherCat Friends
+                    └── Frida 重定向请求并替换已支持的响应
+```
+
+画面和游戏逻辑仍由原客户端执行。本地 mock 只覆盖部分接口，不是原服务端的完整实现。启动器会核对进程身份及批次归属，不会接管已有游戏或终止未知服务。
 
 ## 常见问题
 
-**游戏卡在连接服务器**
+<details>
+<summary>游戏卡在连接服务器</summary>
 
-确认是通过 `Start.command` 启动，并保持 mock 与 Frida 存活。单独打开 PlayCover 游戏不会自动挂载本项目的 hook。
+请确认使用 `Start.command` 启动，并保持 mock 与 Frida 存活。直接打开 PlayCover 中的游戏不会自动加载本项目的运行环境。
 
-**出现 `-54` / `permErr`**
+</details>
 
-历史测试发现外层 PlayCover 快捷入口存在符号链接/签名问题。因此启动器直接使用当前用户的实际安装路径：
+<details>
+<summary>出现 <code>-54</code> / <code>permErr</code></summary>
+
+历史测试发现 PlayCover 的外层快捷入口存在符号链接或签名问题。启动器已改用当前用户的实际安装路径：
 
 ```text
 ~/Library/Containers/io.playcover.PlayCover/Applications/net.cravemob.archercatfriends.app
 ```
 
-不会删除或修复已有快捷入口。如果此实际应用无法启动，请保留错误信息检查 PlayCover 安装。
+如果此应用仍无法启动，请保留错误信息并检查 PlayCover 安装。启动器不会自动删除或修复已有快捷入口。
 
-**提示已有游戏、3001 端口占用或 batch lock**
+</details>
 
-启动器不会接管既有游戏、终止未知服务或盲删锁。请先确认前一次运行已退出；不要用按名称批量杀进程的方式清理。
+<details>
+<summary>提示已有游戏、3001 端口占用或 batch lock</summary>
 
-**日志在哪里？**
+请先确认前一次运行已经退出。启动器不会接管未知进程或盲删锁；不要直接按进程名称批量清理。
 
-在 `runtime-revive/playcover-spike/logs/` 和 `runtime-revive/playcover-spike/mock-server/logs/`。日志可能包含请求或客户端标识，已被 Git 忽略。报告问题时只提供必要且已脱敏的错误片段。
+</details>
 
-## 开发与验证
+<details>
+<summary>在哪里查看日志？</summary>
 
-不启动游戏的检查：
+日志生成在以下目录，均已被 Git 忽略：
+
+- `runtime-revive/playcover-spike/logs/`
+- `runtime-revive/playcover-spike/mock-server/logs/`
+
+日志可能包含客户端标识和请求数据。提交问题时只提供必要、已脱敏的片段，详见[隐私与分发说明](docs/privacy.md)。
+
+</details>
+
+## 参与开发
+
+欢迎通过 [Issues](https://github.com/Yibael/archercat-friends-revival/issues) 提交可复现的问题，或通过 Pull Request 改进启动流程、mock 响应和测试。
+
+报告问题时，请提供 macOS、PlayCover 版本、复现步骤，以及已脱敏的错误信息。请将运行观察与推测分开描述；日志中的成功响应不能代替实际功能验证。
+
+### 本地检查
+
+以下检查不会启动游戏：
 
 ```sh
-PYTHONDONTWRITEBYTECODE=1 uv run --locked --python 3.12 python -m unittest discover -v
-python3 tools/check_distribution.py
+uv sync --locked --python 3.12
+uv run --locked --no-sync python -m unittest discover -v
+uv run --locked --no-sync python tools/check_distribution.py
 bash -n Start.command
 bash -n runtime-revive/playcover-spike/launch-player.sh
 ```
 
-发布前更新文件清单并再次检查：
+提交前审查改动，按需更新 `PUBLIC_FILES.txt`。新增或删除文件时，先用 `git add <具体路径>` 将这些变更加入暂存区，使 Git 跟踪列表与公开清单一致，再重新生成分发校验清单：
 
 ```sh
-python3 tools/check_distribution.py --refresh
-python3 tools/check_distribution.py
+uv run --locked --no-sync python tools/check_distribution.py --refresh
+uv run --locked --no-sync python tools/check_distribution.py
+git diff --check
 ```
 
-`--refresh` 只更新经过检查的公开文件 hash，不会自动纳入额外文件。需要加入新文件时应先审查并更新 `PUBLIC_FILES.txt`。
+清单更新不会自动纳入额外文件。不要提交运行日志、缓存、个人存档或凭据；具体排除项见[隐私与分发说明](docs/privacy.md)。
 
-项目包含本地进程身份和所有权校验：仅操作本次创建并验证过的目标，游戏退出后再停止 mock。不要为了绕过错误而关闭这些校验。
+### 提交约定
 
-## 文件与来源
+提交应聚焦一个目的，说明变更带来的行为及必要验证。提交信息使用 Conventional Commits 风格，例如：
 
-- `Start.command`：双击入口。
-- `player.py`：Frida 会话、登录验证和进程收尾。
-- `runtime-revive/`：经过审查的 IPA、mock 和运行辅助代码。
-- `vendor/`：固定版本的官方 Frida ARM64 wheel 及来源记录。
-- `PUBLIC_FILES.txt` / `DISTRIBUTION.json`：公开文件清单及 hash。
-- `PROVENANCE.json`：上游版本与 IPA 处理记录。
-- [隐私与分发说明](docs/privacy.md)：排除项、检查范围和限制。
+```text
+fix(launcher): preserve the mock until the owned game exits
+docs(readme): clarify first-run requirements
+```
 
-ArcherCat Friends 的名称、客户端和美术资源属于原权利人。本项目不是原开发商的官方产品，也不表示取得了原游戏内容的授权许可。
+## 文档与来源
+
+| 文件 | 内容 |
+| --- | --- |
+| [测试记录](docs/testing.md) | 实测结果、已知问题和后续验收范围 |
+| [隐私与分发](docs/privacy.md) | 分发排除项、隐私检查与扫描边界 |
+| [来源记录](PROVENANCE.json) | IPA、项目图标的来源及处理记录 |
+| [第三方依赖](vendor/SOURCES.json) | 官方 Frida wheel 的来源和 SHA-256 |
+| [分发清单](PUBLIC_FILES.txt) | 明确允许提交的文件 |
+| [文件校验](DISTRIBUTION.json) | 分发文件的 SHA-256 |
+
+## 致谢与许可
+
+感谢 [PlayCover](https://github.com/PlayCover/PlayCover)、[Frida](https://frida.re/) 和 [uv](https://github.com/astral-sh/uv) 提供运行与开发工具。
+
+项目代码目前尚未声明开源许可证。ArcherCat Friends 的名称、客户端、图标与美术资源归原权利人所有；本项目是非官方实验，不代表原开发商。随仓库提供的 Frida wheel 保留其原始许可证和元数据。

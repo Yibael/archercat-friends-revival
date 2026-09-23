@@ -5,20 +5,24 @@
       "sha256": "8bc3ca52643478dbe234f8526503100badd71c5ca4de745b0abcc7aa4ed7cee9"
     },
     "PROVENANCE.json": {
-      "bytes": 575,
-      "sha256": "401a33c1496f7b9b836379846cb77b2c50dd003d80448ccedef47a92737cd297"
+      "bytes": 1039,
+      "sha256": "1a5a35c40839d8622428ee740a488c4e37f6b69f827f9eaae00c28e8302c245d"
     },
     "PUBLIC_FILES.txt": {
-      "bytes": 734,
-      "sha256": "81459431295a6d820f141c7626afc4ab9770c9ed945a92994e0db3a3ad4f5908"
+      "bytes": 765,
+      "sha256": "8981bde0e3963b53e1637519ee98e4b2a4c06ceae17b3150c776f11a37d0722a"
     },
     "README.md": {
-      "bytes": 7128,
-      "sha256": "7f0081d83342a475c62d342f8517816a66a6335b05081b956c1d268ea9b212d2"
+      "bytes": 8844,
+      "sha256": "5af12240b4efc7f5d76cfb181b4c8f1a801b7a16463157cb5ce3adb762f11695"
     },
     "Start.command": {
       "bytes": 2436,
       "sha256": "6620782b9cf39d767e5fe24de7bb17d11846e84048b9e6b9f9dfa9f9f0d25aa0"
+    },
+    "docs/assets/archercat-icon.png": {
+      "bytes": 49583,
+      "sha256": "1fceb41397f02615504674edfc14a8e9881d3d00d7e04368a83264db6249b23e"
     },
     "docs/privacy.md": {
       "bytes": 2227,

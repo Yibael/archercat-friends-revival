@@ -23,3 +23,4 @@ runtime-revive/playcover-spike/cocos-ui-capture/capture_framebuffer_sidecar.py
 runtime-revive/playcover-spike/launch-player.sh
 vendor/SOURCES.json
 vendor/frida-17.15.4-cp37-abi3-macosx_11_0_arm64.whl
+docs/assets/archercat-icon.png

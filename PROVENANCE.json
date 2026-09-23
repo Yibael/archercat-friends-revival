@@ -6,5 +6,12 @@
     "Payload/ArcherCat.app/archived-expanded-entitlements.xcent"
   ],
   "binaryAndResourcesUnchanged": true,
-  "note": "Only selected launcher files and the unsigned game package are included; no user profile, runtime logs, imported PlayCover app, or original repository history is included."
+  "note": "Only selected launcher files and the unsigned game package are included; no user profile, runtime logs, imported PlayCover app, or original repository history is included.",
+  "documentationIcon": {
+    "path": "docs/assets/archercat-icon.png",
+    "sourceArchive": "runtime-revive/ArcherCat-unsigned-resignable.ipa",
+    "sourceMember": "Payload/ArcherCat.app/Icon-60@3x.png",
+    "sourceSha256": "5aabad0ea2759fe0b4d04384172ec707776306ef19dd4ea17aee8c94a1a6f32d",
+    "conversion": "Normalize Apple CgBI PNG to standard PNG with macOS sips and strip ancillary metadata except sRGB; retain 180x180 dimensions and original artwork."
+  }
 }

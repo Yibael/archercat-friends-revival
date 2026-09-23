@@ -26,7 +26,7 @@ Start.command
 | PlayCover | 先安装与自己 macOS 兼容的版本，首次启动时由启动器打开包内 IPA 导入 |
 | Apple Command Line Tools | 用于核对游戏二进制身份；不需要完整 Xcode |
 | uv | 管理独立 Python 环境和锁定的依赖 |
-| 首次联网 | 下载 Python 3.12 和 Frida；后续运行不自动升级锁定依赖 |
+| Python 3.12 | 已安装时直接使用；缺少时由 uv 下载，也可手动提前安装 |
 
 本机验证环境为 macOS 27.0、PlayCover 3.1.0、Python 3.12、Frida 17.15.4。其他系统组合和全新 Mac 的安装流程尚未在另一台实机验证；首次导入分支有离线行为测试。Frida 注入也受本机权限影响；启动器不会修改系统安全设置。
 
@@ -69,7 +69,7 @@ IPA 已移除无用的旧签名 entitlement 元数据；未改动游戏二进制
 ./Start.command
 ```
 
-首次会建立 `.venv` 并下载锁定依赖，随后自动启动 mock、游戏和 Frida。若游戏出现“开始游戏”，由使用者点击。
+首次会建立 `.venv`，从仓库自带的官方 ARM64 wheel 安装 Frida，随后自动启动 mock、游戏和 Frida。Frida 安装不需要访问 PyPI；若本机没有 Python 3.12，uv 仍需下载 Python，或由你提前安装。若游戏出现“开始游戏”，由使用者点击。
 
 游戏运行期间保留终端窗口。关闭游戏后启动器会收尾本次 mock，也可以按 **Ctrl+C** 结束本次运行。请勿直接从 PlayCover 单独启动游戏，否则不会同时启动本地 mock 链路。
 
@@ -120,7 +120,7 @@ IPA 已移除无用的旧签名 entitlement 元数据；未改动游戏二进制
 不启动游戏的检查：
 
 ```sh
-PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -v
+PYTHONDONTWRITEBYTECODE=1 uv run --locked --python 3.12 python -m unittest discover -v
 python3 tools/check_distribution.py
 bash -n Start.command
 bash -n runtime-revive/playcover-spike/launch-player.sh
@@ -142,6 +142,7 @@ python3 tools/check_distribution.py
 - `Start.command`：双击入口。
 - `player.py`：Frida 会话、登录验证和进程收尾。
 - `runtime-revive/`：经过审查的 IPA、mock 和运行辅助代码。
+- `vendor/`：固定版本的官方 Frida ARM64 wheel 及来源记录。
 - `PUBLIC_FILES.txt` / `DISTRIBUTION.json`：公开文件清单及 hash。
 - `PROVENANCE.json`：上游版本与 IPA 处理记录。
 - [隐私与分发说明](docs/privacy.md)：排除项、检查范围和限制。

@@ -11,6 +11,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 IPA = 'runtime-revive/ArcherCat-unsigned-resignable.ipa'
 MANIFEST = 'DISTRIBUTION.json'
+WHEEL = 'vendor/frida-17.15.4-cp37-abi3-macosx_11_0_arm64.whl'
 SECRET_PATTERNS = {
     'private_key': rb'-----BEGIN (?:RSA |EC |OPENSSH |DSA |ENCRYPTED )?PRIVATE KEY-----',
     'github_token': rb'(?:gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{40,})',
@@ -46,6 +47,8 @@ def public_files(root):
             raise ValueError('Unsafe public path')
         if path.suffix.lower() in EXCLUDED_SUFFIXES or any(x in {'logs', '.venv', '__pycache__'} for x in path.parts):
             raise ValueError(f'Excluded public file type: {name}')
+        if path.suffix == '.whl' and name != WHEEL:
+            raise ValueError('Only the pinned official Frida wheel may be public')
         if path.suffix == '.ipa' and name != IPA:
             raise ValueError('Only the reviewed IPA may be public')
     return paths
@@ -80,6 +83,42 @@ def scan_ipa(path):
     return {'checkedFiles': count, 'originalBinaryBuildPaths': historical_paths}
 
 
+
+def scan_wheel(root):
+    source = json.loads((root / 'vendor/SOURCES.json').read_text())
+    wheel = root / WHEEL
+    if hashlib.sha256(wheel.read_bytes()).hexdigest() != source['sha256']:
+        raise ValueError('Bundled wheel differs from its official upstream hash')
+    count = 0
+    parser_markers = set()
+    with zipfile.ZipFile(wheel) as archive:
+        seen = set()
+        for info in archive.infolist():
+            name = info.filename
+            path = PurePosixPath(name)
+            if name in seen or path.is_absolute() or '..' in path.parts:
+                raise ValueError('Unsafe wheel member')
+            seen.add(name)
+            if info.is_dir():
+                continue
+            data = archive.read(info)
+            native = name == 'frida/_frida.abi3.so'
+            findings = content_findings(data, binary=native)
+            if native:
+                # Public upstream native library includes PEM parser delimiters and
+                # example URL format strings. Only this exact, hash-pinned wheel
+                # receives this exception; current-user paths/tokens remain fatal.
+                parser_markers.update(set(findings) & {'private_key', 'credential_url'})
+                findings = [f for f in findings if f not in {'private_key', 'credential_url'}]
+            if findings:
+                raise ValueError(f'Wheel content rejected: {name}; categories={findings}')
+            count += 1
+        if archive.testzip() is not None:
+            raise ValueError('Corrupt wheel archive')
+    return {'checkedFiles': count, 'officialSha256Verified': True,
+            'upstreamNativeParserMarkers': sorted(parser_markers)}
+
+
 def inspect(root, refresh=False):
     files = public_files(root)
     if MANIFEST not in files or IPA not in files:
@@ -92,12 +131,13 @@ def inspect(root, refresh=False):
         if path.is_symlink() or not path.is_file():
             raise ValueError(f'Missing or symlinked public file: {name}')
         data = path.read_bytes()
-        if name != IPA:
+        if name not in (IPA, WHEEL):
             findings = content_findings(data)
             if findings:
                 raise ValueError(f'Public text rejected: {name}; categories={findings}')
         hashes[name] = {'sha256': hashlib.sha256(data).hexdigest(), 'bytes': len(data)}
     ipa_result = scan_ipa(root / IPA)
+    wheel_result = scan_wheel(root)
     provenance = json.loads((root / 'PROVENANCE.json').read_text())
     if hashes[IPA]['sha256'] != provenance['distributedIpaSha256']:
         raise ValueError('IPA differs from its provenance record')
@@ -111,7 +151,7 @@ def inspect(root, refresh=False):
         (root / MANIFEST).write_text(json.dumps(manifest, indent=2, sort_keys=True) + '\n')
     elif json.loads((root / MANIFEST).read_text()) != manifest:
         raise ValueError('File hashes changed; review changes before --refresh')
-    return {'status': 'ok', 'publicFiles': len(files), 'ipa': ipa_result,
+    return {'status': 'ok', 'publicFiles': len(files), 'ipa': ipa_result, 'wheel': wheel_result,
             'note': 'Pattern scan and file review; not a proof of absence of unknown secrets.'}
 
 

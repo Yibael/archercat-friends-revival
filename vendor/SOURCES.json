@@ -1,0 +1,10 @@
+{
+  "name": "frida",
+  "version": "17.15.4",
+  "platform": "macOS ARM64",
+  "file": "frida-17.15.4-cp37-abi3-macosx_11_0_arm64.whl",
+  "sha256": "ec0cb8e0720978c35b0abadf73c5deb80a1e6fbb652b97ce474b0ffcb964281f",
+  "bytes": 32387494,
+  "sourceUrl": "https://files.pythonhosted.org/packages/73/b7/cbf8d91c0535061097b2fbe301bc89c3fe05c4f866182d14ad131a0a2c99/frida-17.15.4-cp37-abi3-macosx_11_0_arm64.whl",
+  "unmodifiedOfficialWheel": true
+}

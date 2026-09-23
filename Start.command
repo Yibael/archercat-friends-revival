@@ -32,7 +32,7 @@ fi
 if [[ -e "${TMPDIR:-/tmp}/archercat-playcover-capture-mock.lock" ]]; then
   echo '已有 ArcherCat batch lock；保留现场并停止。' >&2; exit 1
 fi
-echo '正在准备 Python / Frida（首次启动需要联网下载依赖）…'
+echo '正在准备 Python / Frida（Frida 从仓库安装；缺少 Python 3.12 时会自动下载）…'
 uv sync --project "$ROOT" --locked --python 3.12
 PREPARE_ARGS=()
 if [[ "${ARCHERCAT_NONINTERACTIVE:-0}" == 1 ]]; then

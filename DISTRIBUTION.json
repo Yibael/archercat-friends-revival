@@ -13,8 +13,8 @@
       "sha256": "81459431295a6d820f141c7626afc4ab9770c9ed945a92994e0db3a3ad4f5908"
     },
     "README.md": {
-      "bytes": 6959,
-      "sha256": "b3ed03576f45b20f9f94c9216debea53cb0c5281e32f921c1f6b0763a709f7b3"
+      "bytes": 7128,
+      "sha256": "7f0081d83342a475c62d342f8517816a66a6335b05081b956c1d268ea9b212d2"
     },
     "Start.command": {
       "bytes": 2436,
@@ -25,8 +25,8 @@
       "sha256": "c82fd46b18898d8af159d3b076e6b4841c54acd50ed95fdc1bf7bbec8dac1f6b"
     },
     "docs/testing.md": {
-      "bytes": 3186,
-      "sha256": "a200923dd93af343ae3d0cfd31d3150acb516092b4cafbaa6d590a1f21bc4bc0"
+      "bytes": 4406,
+      "sha256": "6f959b92da1c44e663db567394396ca086cf04a04c60f764824a628c07112c4d"
     },
     "player.py": {
       "bytes": 9272,
@@ -77,8 +77,8 @@
       "sha256": "6f94f2f00b6060495e46428e9137e36b2de219e33b96fb62e806880453951e29"
     },
     "tools/check_distribution.py": {
-      "bytes": 8113,
-      "sha256": "2e0a7885edd7666b7385b4ec8e87649963fcfac3f4b80808ae6e42f4b9be8a2f"
+      "bytes": 8254,
+      "sha256": "cdf4c9cb13579b6a98ca6ef63c0add0427a051faabeedcb8173ec8a6c2ccb28b"
     },
     "tools/prepare_game.py": {
       "bytes": 3877,

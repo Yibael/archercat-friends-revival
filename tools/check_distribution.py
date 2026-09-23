@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 IPA = 'runtime-revive/ArcherCat-unsigned-resignable.ipa'
 MANIFEST = 'DISTRIBUTION.json'
 WHEEL = 'vendor/frida-17.15.4-cp37-abi3-macosx_11_0_arm64.whl'
+OFFICIAL_FRIDA_SHA256 = 'ec0cb8e0720978c35b0abadf73c5deb80a1e6fbb652b97ce474b0ffcb964281f'
 SECRET_PATTERNS = {
     'private_key': rb'-----BEGIN (?:RSA |EC |OPENSSH |DSA |ENCRYPTED )?PRIVATE KEY-----',
     'github_token': rb'(?:gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{40,})',
@@ -87,7 +88,7 @@ def scan_ipa(path):
 def scan_wheel(root):
     source = json.loads((root / 'vendor/SOURCES.json').read_text())
     wheel = root / WHEEL
-    if hashlib.sha256(wheel.read_bytes()).hexdigest() != source['sha256']:
+    if source['sha256'] != OFFICIAL_FRIDA_SHA256 or hashlib.sha256(wheel.read_bytes()).hexdigest() != OFFICIAL_FRIDA_SHA256:
         raise ValueError('Bundled wheel differs from its official upstream hash')
     count = 0
     parser_markers = set()
